@@ -14,4 +14,9 @@ public class Legs extends Item implements Armor{
     public ArmorType getArmorType() {
         return armorType;
     }
+
+    @Override
+    public int getDamage() {
+        return 0;
+    }
 }

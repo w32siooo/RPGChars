@@ -1,13 +1,14 @@
 package Characters.CharacterTypes;
 import Characters.Character;
+import Enums.CharTypes;
 import Items.Item;
 
 public class Ranger extends Character {
     private static final int[] startingAttributes = {8, 1, 7, 1};
-    private static final String type = "Ranger";
+    private static final CharTypes ranger = CharTypes.RANGER;
 
     public Ranger(String name) {
-        super(name, startingAttributes, type);
+        super(name, startingAttributes, ranger);
     }
 
     @Override

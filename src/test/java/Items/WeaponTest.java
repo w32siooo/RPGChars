@@ -1,7 +1,6 @@
 package Items;
 
-import Characters.CharacterTypes.Sorceress;
-import Characters.CharacterTypes.Warrior;
+import Characters.CharacterTypes.Mage;
 import Enums.ArmorType;
 import Enums.ItemType;
 import Enums.Slot;
@@ -24,7 +23,7 @@ class WeaponTest {
     @org.junit.jupiter.api.Test
     void Equip(){
         Weapon testWeapon = new Weapon("Common Axe",1,7,1.1);
-        Sorceress w = new Sorceress("vos");
+        Mage w = new Mage("vos");
         w.canEquip(testWeapon);
         assertEquals(testWeapon,w.getEquipment().get(Slot.WEAPON),"Verify that weapon is equipped.");
         Head testHelmet = new Head(ItemType.ARMOR,"Plate Helmet",1,Slot.HEAD, ArmorType.PLATE);

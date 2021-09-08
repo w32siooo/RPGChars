@@ -1,29 +1,29 @@
 package Characters;
 
-import Characters.CharacterTypes.Sorceress;
+import Characters.CharacterTypes.Mage;
 
 import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SorceressTest {
+class MageTest {
 
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
-        Sorceress thaliya = new Sorceress("Thaliya");
+        Mage thaliya = new Mage("Thaliya");
         assertEquals(1,thaliya.getLevel(),"Level should be 1 after initiation.");
     }
 
     @org.junit.jupiter.api.AfterEach
     void tearDown() {
-        Sorceress thaliya = new Sorceress("Thaliya");
+        Mage thaliya = new Mage("Thaliya");
         thaliya=null;
         assertNull(null, (Supplier<String>) thaliya);
     }
 
     @org.junit.jupiter.api.Test
     void levelUp() {
-        Sorceress thaliya = new Sorceress("Thaliya");
+        Mage thaliya = new Mage("Thaliya");
         thaliya.levelUp();
         thaliya.levelUp();
         thaliya.levelUp();

@@ -1,16 +1,17 @@
 package Characters.CharacterTypes;
 
 import Characters.Character;
+import Enums.CharTypes;
 import Enums.ItemType;
 import Items.Item;
 import Items.Weapon;
 
 public class Warrior extends Character  {
     private static final int[] startingAttributes = {10, 5, 2, 1};
-    private static final String type = "Warrior";
+    private static final CharTypes Warrior = CharTypes.WARRIOR;
 
     public Warrior(String name) {
-        super(name, startingAttributes, type);
+        super(name, startingAttributes, Warrior);
     }
 
     @Override

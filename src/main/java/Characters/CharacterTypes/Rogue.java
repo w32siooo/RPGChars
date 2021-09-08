@@ -1,14 +1,15 @@
 package Characters.CharacterTypes;
 
 import Characters.Character;
+import Enums.CharTypes;
 import Items.Item;
 
 public class Rogue extends Character {
     private static final int[] startingAttributes = {8, 2, 6, 1};
-    private static final String type = "Rogue";
+    private static final CharTypes rogue = CharTypes.ROGUE;
 
     public Rogue(String name) {
-        super(name, startingAttributes, type);
+        super(name, startingAttributes, rogue);
     }
 
     @Override

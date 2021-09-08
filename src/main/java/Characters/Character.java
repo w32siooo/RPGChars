@@ -1,24 +1,33 @@
 package Characters;
+
 import Enums.ItemType;
 import Enums.Slot;
 import Items.Item;
+import Enums.CharTypes;
 
 import java.util.HashMap;
 
 public abstract class Character {
 
+    protected static int[] startingAttributes;
     //private TotalAttributes tot;
-    protected HashMap<Slot, Item> Equipment = new HashMap<>();
+    protected HashMap<Slot, Item> equipment = new HashMap<>();
+    protected TotalAttributes totAttr;
+    protected PrimaryAttributes primAttr;
+    protected CharTypes charType;
+    protected int level;
+    protected String name;
+    protected double dps;
 
-    public Character(String name, int[] primaryAttributes, String type) {
+    public Character(String name, int[] primaryAttributes, CharTypes charType) {
         this.name = name;
         this.level = 1;
         this.primAttr = new PrimaryAttributes(primaryAttributes[0], primaryAttributes[1], primaryAttributes[2], primaryAttributes[3]);
-        this.type = type;
+        this.charType = charType;
     }
 
-    public void equip(Item item){
-        Equipment.put(item.getSlot(),item);
+    public void equip(Item item) {
+        equipment.put(item.getSlot(), item);
     }
 
     public abstract boolean canEquip(Item item);
@@ -26,15 +35,15 @@ public abstract class Character {
     public abstract void levelUp();
 
     public int getLevel() {
-        return this.level;
+        return level;
     }
 
-    public String displayStats(){
+    public String displayStats() {
 
         StringBuilder sb = new StringBuilder();
-        sb.append("name: " + name+" ");
-        sb.append("itemType: " + type+" ");
-        sb.append("level: " + level+" ");
+        sb.append("name: " + name + " ");
+        sb.append("charType: " + charType + " ");
+        sb.append("level: " + level + " ");
         //sb.append("dps: " + dps+" ");
         //sb.append(totAttr.toString());
         sb.append(primAttr.toString());
@@ -42,14 +51,41 @@ public abstract class Character {
         return sb.toString();
     }
 
-    public Boolean Equip(Slot slot, Item item){
+    public Boolean Equip(Slot slot, Item item) {
 
-        Equipment.put(slot,item);
+        equipment.put(slot, item);
         return true;
     }
 
-    public HashMap<Slot,Item> getEquipment(){
-        return Equipment;
+    public HashMap<Slot, Item> getEquipment() {
+        return equipment;
+    }
+
+    public int calculateDps() {
+
+        //Character DPS = Weapon DPS * (1 + TotalPrimaryAttribute/100)
+
+        switch (charType) {
+            case WARRIOR:
+                if (equipment.get(Slot.WEAPON).getName() != null) {
+                    this.dps = equipment.get(Slot.WEAPON).getDamage() * (1 + this.primAttr.getBaseStr());
+                }
+                this.dps = equipment.get(Slot.WEAPON).getDamage() * (1 + this.primAttr.getBaseStr()); //no weapon
+                break;
+            case MAGE:
+                this.dps = equipment.get(Slot.WEAPON).getDamage() * (1 + this.primAttr.getBaseInt());
+                break;
+            case ROGUE:
+                this.dps = equipment.get(Slot.WEAPON).getDamage() * (1 + this.primAttr.getBaseDex());
+                break;
+            case RANGER:
+                this.dps = equipment.get(Slot.WEAPON).getDamage() * (1 + this.primAttr.getBaseDex());
+                break;
+
+        }
+
+
+        return 0;
     }
 
     public void incrementAttributes(int[] array) {
@@ -58,13 +94,6 @@ public abstract class Character {
         this.primAttr.setBaseStr(this.primAttr.getBaseStr() + array[2]);
         this.primAttr.setBaseInt(this.primAttr.getBaseInt() + array[3]);
     }
-
-    protected TotalAttributes totAttr;
-    protected PrimaryAttributes primAttr;
-    protected String type;
-    protected int level;
-    protected String name;
-    protected static int[] startingAttributes;
 }
 
 //this.baseVit = baseVit; this.baseStr = baseStr; this.baseDex = baseDex; this.baseInt = baseInt;

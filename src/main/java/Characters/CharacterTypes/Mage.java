@@ -1,18 +1,16 @@
 package Characters.CharacterTypes;
 
 import Characters.Character;
-import Enums.Slot;
+import Enums.CharTypes;
 import Items.Item;
 import Items.Weapon;
 
-import java.util.HashMap;
-
-public class Sorceress extends Character {
+public class Mage extends Character {
     private static final int[] startingAttributes = {5, 1, 1, 8};
-    private static final String type = "Sorceress";
+    private static final CharTypes mage = CharTypes.MAGE;
 
-    public Sorceress(String name) {
-        super(name, startingAttributes, type);
+    public Mage(String name) {
+        super(name, startingAttributes, mage);
     }
 
     @Override
@@ -28,7 +26,7 @@ public class Sorceress extends Character {
 
     public static void main(String[] args) {
 
-        Sorceress thaliya = new Sorceress("thaliya");
+        Mage thaliya = new Mage("thaliya");
         thaliya.levelUp();
         thaliya.levelUp();
         thaliya.levelUp();
