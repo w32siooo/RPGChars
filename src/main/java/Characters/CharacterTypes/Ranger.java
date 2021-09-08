@@ -1,5 +1,6 @@
 package Characters.CharacterTypes;
 import Characters.Character;
+import Items.Item;
 
 public class Ranger extends Character {
     private static final int[] startingAttributes = {8, 1, 7, 1};
@@ -7,6 +8,11 @@ public class Ranger extends Character {
 
     public Ranger(String name) {
         super(name, startingAttributes, type);
+    }
+
+    @Override
+    public boolean canEquip(Item item) {
+        return false;
     }
 
     @Override

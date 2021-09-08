@@ -1,6 +1,7 @@
 package Characters.CharacterTypes;
 
 import Characters.Character;
+import Items.Item;
 
 public class Rogue extends Character {
     private static final int[] startingAttributes = {8, 2, 6, 1};
@@ -8,6 +9,11 @@ public class Rogue extends Character {
 
     public Rogue(String name) {
         super(name, startingAttributes, type);
+    }
+
+    @Override
+    public boolean canEquip(Item item) {
+        return false;
     }
 
     public void levelUp() {

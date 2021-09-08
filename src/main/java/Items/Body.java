@@ -1,10 +1,18 @@
 package Items;
 
+import Enums.ArmorType;
 import Enums.Slot;
-import Enums.Type;
+import Enums.ItemType;
 
-public class Body extends Item{
-    public Body(Type type, String name, int levelReq, Slot slot) {
-        super(type, name, levelReq, slot);
+public class Body extends Item implements Armor{
+    private ArmorType armorType;
+    public Body(ItemType itemType, String name, int levelReq, Slot slot, ArmorType armorType) {
+        super(itemType, name, levelReq, slot);
+        this.armorType = armorType;
+    }
+
+    @Override
+    public ArmorType getArmorType() {
+        return armorType;
     }
 }

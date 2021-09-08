@@ -1,6 +1,11 @@
 package Characters.CharacterTypes;
 
 import Characters.Character;
+import Enums.Slot;
+import Items.Item;
+import Items.Weapon;
+
+import java.util.HashMap;
 
 public class Sorceress extends Character {
     private static final int[] startingAttributes = {5, 1, 1, 8};
@@ -8,6 +13,12 @@ public class Sorceress extends Character {
 
     public Sorceress(String name) {
         super(name, startingAttributes, type);
+    }
+
+    @Override
+    public boolean canEquip(Item item) {
+        equip(item);
+        return false;
     }
 
     public void levelUp() {
@@ -22,6 +33,8 @@ public class Sorceress extends Character {
         thaliya.levelUp();
         thaliya.levelUp();
         System.out.println(thaliya.displayStats());
+        Weapon testWeapon = new Weapon("Common Axe",1,7,1.1);
+        
     }
 
 }

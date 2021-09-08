@@ -1,4 +1,5 @@
 package Characters;
+import Enums.ItemType;
 import Enums.Slot;
 import Items.Item;
 
@@ -7,7 +8,7 @@ import java.util.HashMap;
 public abstract class Character {
 
     //private TotalAttributes tot;
-    private HashMap<Slot, Item> Equipment;
+    protected HashMap<Slot, Item> Equipment = new HashMap<>();
 
     public Character(String name, int[] primaryAttributes, String type) {
         this.name = name;
@@ -15,6 +16,12 @@ public abstract class Character {
         this.primAttr = new PrimaryAttributes(primaryAttributes[0], primaryAttributes[1], primaryAttributes[2], primaryAttributes[3]);
         this.type = type;
     }
+
+    public void equip(Item item){
+        Equipment.put(item.getSlot(),item);
+    }
+
+    public abstract boolean canEquip(Item item);
 
     public abstract void levelUp();
 
@@ -26,7 +33,7 @@ public abstract class Character {
 
         StringBuilder sb = new StringBuilder();
         sb.append("name: " + name+" ");
-        sb.append("type: " + type+" ");
+        sb.append("itemType: " + type+" ");
         sb.append("level: " + level+" ");
         //sb.append("dps: " + dps+" ");
         //sb.append(totAttr.toString());
