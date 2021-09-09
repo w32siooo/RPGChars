@@ -1,23 +1,38 @@
 package Items;
 
-import Enums.ItemType;
-import Enums.Slot;
 import Enums.ArmorType;
+import Enums.Slot;
 
-public class Head extends Item implements Armor{
-    private ArmorType armorType;
-    public Head(ItemType itemType, String name, int levelReq, Slot slot, ArmorType armorType) {
-        super(itemType, name, levelReq, slot);
+public class Head implements ItemInterface, ArmorInterface {
+
+    public Head(String name, ArmorType armorType, int levelReq) {
+        this.name = name;
         this.armorType = armorType;
+        this.levelReq = levelReq;
     }
 
     @Override
     public ArmorType getArmorType() {
-        return armorType;
+        return null;
     }
 
     @Override
-    public int getDamage() {
+    public String getItemName() {
+        return null;
+    }
+
+    @Override
+    public int getLevelReq() {
         return 0;
     }
+
+    @Override
+    public Slot getSlot() {
+        return null;
+    }
+
+    private String name;
+    private Slot bodySlot = Slot.HEAD;
+    private ArmorType armorType;
+    private int levelReq;
 }

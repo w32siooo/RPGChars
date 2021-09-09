@@ -2,14 +2,8 @@ package Items;
 
 import Enums.ArmorType;
 import Enums.Slot;
-import Enums.ItemType;
 
-public class Body extends Item implements Armor{
-    private ArmorType armorType;
-    public Body(ItemType itemType, String name, int levelReq, Slot slot, ArmorType armorType) {
-        super(itemType, name, levelReq, slot);
-        this.armorType = armorType;
-    }
+public class Body implements ItemInterface, ArmorInterface {
 
     @Override
     public ArmorType getArmorType() {
@@ -17,7 +11,28 @@ public class Body extends Item implements Armor{
     }
 
     @Override
-    public int getDamage() {
+    public String getItemName() {
+        return name;
+    }
+
+    @Override
+    public int getLevelReq() {
         return 0;
     }
+
+    @Override
+    public Slot getSlot() {
+        return bodySlot;
+    }
+
+    public Body(String name, ArmorType armorType, int levelReq) {
+        this.name = name;
+        this.armorType = armorType;
+        this.levelReq = levelReq;
+    }
+
+    private String name;
+    private Slot bodySlot = Slot.BODY;
+    private ArmorType armorType;
+    private int levelReq;
 }

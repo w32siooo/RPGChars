@@ -1,9 +1,9 @@
 package Characters;
 
-import Enums.ItemType;
 import Enums.Slot;
-import Items.Item;
+import Items.ItemInterface;
 import Enums.CharTypes;
+import Items.WeaponInterface;
 
 import java.util.HashMap;
 
@@ -11,8 +11,8 @@ public abstract class Character {
 
     protected static int[] startingAttributes;
     //private TotalAttributes tot;
-    protected HashMap<Slot, Item> equipment = new HashMap<>();
-    protected TotalAttributes totAttr;
+    protected HashMap<Slot, ItemInterface> equipment = new HashMap<>();
+    protected BonusAttributes bonusAttr;
     protected PrimaryAttributes primAttr;
     protected CharTypes charType;
     protected int level;
@@ -23,14 +23,16 @@ public abstract class Character {
         this.name = name;
         this.level = 1;
         this.primAttr = new PrimaryAttributes(primaryAttributes[0], primaryAttributes[1], primaryAttributes[2], primaryAttributes[3]);
+        this.bonusAttr = new BonusAttributes(0,0,0,0);
         this.charType = charType;
     }
 
-    public void equip(Item item) {
-        equipment.put(item.getSlot(), item);
+    public boolean equip(ItemInterface itemInterface) {
+        equipment.put(itemInterface.getSlot(), itemInterface);
+        return false;
     }
 
-    public abstract boolean canEquip(Item item);
+    public abstract boolean canEquip(ItemInterface itemInterface);
 
     public abstract void levelUp();
 
@@ -51,41 +53,50 @@ public abstract class Character {
         return sb.toString();
     }
 
-    public Boolean Equip(Slot slot, Item item) {
+    public Boolean Equip(Slot slot, ItemInterface itemInterface) {
 
-        equipment.put(slot, item);
+        equipment.put(slot, itemInterface);
         return true;
     }
 
-    public HashMap<Slot, Item> getEquipment() {
+    public HashMap<Slot, ItemInterface> getEquipment() {
         return equipment;
     }
 
-    public int calculateDps() {
+    public double calculateDps() {
 
         //Character DPS = Weapon DPS * (1 + TotalPrimaryAttribute/100)
 
         switch (charType) {
-            case WARRIOR:
-                if (equipment.get(Slot.WEAPON).getName() != null) {
-                    this.dps = equipment.get(Slot.WEAPON).getDamage() * (1 + this.primAttr.getBaseStr());
+            case WARRIOR -> {
+                if (equipment.get(Slot.WEAPON).getItemName() != null) {
+                    WeaponInterface weapon = (WeaponInterface) equipment.get(Slot.WEAPON);
+                    dps = weapon.getDamage() * weapon.getAttackSpeed() + (1 + this.bonusAttr.getBonusStr() + this.primAttr.getBaseStr() / 100.0); //damage * attackspeed + (1+primAttr/100)
+                } else {
+                    dps = (1 + this.primAttr.getBaseStr() / 100.0);
                 }
-                this.dps = equipment.get(Slot.WEAPON).getDamage() * (1 + this.primAttr.getBaseStr()); //no weapon
-                break;
-            case MAGE:
-                this.dps = equipment.get(Slot.WEAPON).getDamage() * (1 + this.primAttr.getBaseInt());
-                break;
-            case ROGUE:
-                this.dps = equipment.get(Slot.WEAPON).getDamage() * (1 + this.primAttr.getBaseDex());
-                break;
-            case RANGER:
-                this.dps = equipment.get(Slot.WEAPON).getDamage() * (1 + this.primAttr.getBaseDex());
-                break;
+
+            }
+            case MAGE -> {
+                if (equipment.get(Slot.WEAPON).getItemName() != null) {
+                    WeaponInterface weapon = (WeaponInterface) equipment.get(Slot.WEAPON);
+                    dps = weapon.getDamage() * weapon.getAttackSpeed() + (1 + this.bonusAttr.getBonusInt() + this.primAttr.getBaseInt() / 100.0); //damage * attackspeed + (1+primAttr/100)
+                } else {
+                    dps = (1 + this.primAttr.getBaseInt() / 100.0);
+                }
+            }
+            case RANGER, ROGUE -> {
+                if (equipment.get(Slot.WEAPON).getItemName() != null) {
+                    WeaponInterface weapon = (WeaponInterface) equipment.get(Slot.WEAPON);
+                    dps = weapon.getDamage() * weapon.getAttackSpeed() + (1 + this.bonusAttr.getBonusDex() + this.primAttr.getBaseDex() / 100.0); //damage * attackspeed + (1+primAttr/100)
+                } else {
+                    dps = (1 + this.primAttr.getBaseDex() / 100.0);
+                }
+            }
 
         }
 
-
-        return 0;
+        return this.dps;
     }
 
     public void incrementAttributes(int[] array) {

@@ -2,7 +2,8 @@ package Items;
 
 import Enums.ArmorType;
 
-public interface Armor {
+public interface ArmorInterface {
 
     public ArmorType getArmorType();
+
 }

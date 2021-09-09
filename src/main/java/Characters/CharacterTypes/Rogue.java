@@ -2,7 +2,7 @@ package Characters.CharacterTypes;
 
 import Characters.Character;
 import Enums.CharTypes;
-import Items.Item;
+import Items.ItemInterface;
 
 public class Rogue extends Character {
     private static final int[] startingAttributes = {8, 2, 6, 1};
@@ -13,7 +13,7 @@ public class Rogue extends Character {
     }
 
     @Override
-    public boolean canEquip(Item item) {
+    public boolean canEquip(ItemInterface itemInterface) {
         return false;
     }
 

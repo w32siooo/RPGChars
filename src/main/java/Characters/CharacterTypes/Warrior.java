@@ -2,9 +2,7 @@ package Characters.CharacterTypes;
 
 import Characters.Character;
 import Enums.CharTypes;
-import Enums.ItemType;
-import Items.Item;
-import Items.Weapon;
+import Items.ItemInterface;
 
 public class Warrior extends Character  {
     private static final int[] startingAttributes = {10, 5, 2, 1};
@@ -15,25 +13,9 @@ public class Warrior extends Character  {
     }
 
     @Override
-    public boolean canEquip(Item item) {
-        if (item.getItemType() == ItemType.WEAPON) {
-            equip(item);
-        }
-        if (item.getItemType() == ItemType.ARMOR) {
-            switch (item.getSlot()){
-                case BODY:
-                    equip(item);
-                    break;
-                case HEAD:
-                    equip(item);
-                    break;
-                case LEGS:
-                    equip(item);
-                    break;
-
-            }
-        }
-        return false;
+    public boolean canEquip(ItemInterface itemInterface) {
+        System.out.println("equipping " + itemInterface.getItemName());
+        return equip(itemInterface);
     }
 
     public void levelUp() {

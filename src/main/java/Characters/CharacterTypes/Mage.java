@@ -2,7 +2,7 @@ package Characters.CharacterTypes;
 
 import Characters.Character;
 import Enums.CharTypes;
-import Items.Item;
+import Items.ItemInterface;
 import Items.Weapon;
 
 public class Mage extends Character {
@@ -14,8 +14,8 @@ public class Mage extends Character {
     }
 
     @Override
-    public boolean canEquip(Item item) {
-        equip(item);
+    public boolean canEquip(ItemInterface itemInterface) {
+        equip(itemInterface);
         return false;
     }
 
@@ -31,7 +31,7 @@ public class Mage extends Character {
         thaliya.levelUp();
         thaliya.levelUp();
         System.out.println(thaliya.displayStats());
-        Weapon testWeapon = new Weapon("Common Axe",1,7,1.1);
+        //Weapon testWeapon = new Weapon("Common Axe",1,7,1.1);
         
     }
 

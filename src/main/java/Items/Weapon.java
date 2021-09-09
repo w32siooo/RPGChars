@@ -1,25 +1,45 @@
 package Items;
 
-import Enums.ItemType;
 import Enums.Slot;
 
-public class Weapon extends Item {
-    private int damage;
-    private double attackSpeed;
-    private static final ItemType weaponType = ItemType.WEAPON;
-    private static final Slot weaponSlot = Slot.WEAPON;
+public class Weapon implements ItemInterface, WeaponInterface {
 
-    public Weapon(String name, int levelReq, int damage, double attackSpeed) {
-        super(weaponType, name, levelReq, weaponSlot);
-        this.damage = damage;
+    public Weapon(String name, double attackSpeed, int damage, int levelReq) {
         this.attackSpeed = attackSpeed;
+        this.damage = damage;
+        this.name = name;
+        this.levelReq= levelReq;
     }
 
+    @Override
+    public String getItemName() {
+        return name;
+    }
+
+    @Override
+    public int getLevelReq() {
+        return levelReq;
+    }
+
+    @Override
+    public Slot getSlot() {
+        return slot;
+    }
+
+    @Override
     public int getDamage() {
         return damage;
     }
 
+    @Override
     public double getAttackSpeed() {
         return attackSpeed;
     }
+
+    private double attackSpeed;
+    private int damage;
+    private String name;
+    private Slot slot = Slot.WEAPON;
+    private int levelReq;
+
 }
