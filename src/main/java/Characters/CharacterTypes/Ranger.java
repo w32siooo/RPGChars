@@ -11,10 +11,6 @@ public class Ranger extends Character {
         super(name, startingAttributes, ranger);
     }
 
-    @Override
-    public boolean canEquip(ItemInterface itemInterface) {
-        return false;
-    }
 
     @Override
     public void levelUp() {

@@ -1,15 +1,12 @@
 package Characters;
 
-class BonusAttributes {
+public class BonusAttributes {
     public BonusAttributes(int bonusVit, int bonusStr, int bonusDex, int bonusInt) {
         this.bonusVit = bonusVit;
         this.bonusStr = bonusStr;
         this.bonusDex = bonusDex;
         this.bonusInt = bonusInt;
     }
-
-    //Singleton class.
-
 
     public void updateAttributes(int bonusVit, int bonusStr, int bonusDex, int bonusInt) {
         this.bonusDex += bonusDex;
@@ -33,8 +30,9 @@ class BonusAttributes {
     public int getBonusInt() {
         return bonusInt;
     }
-    private int bonusVit=0;
-    private int bonusStr=2;
-    private int bonusDex=2;
-    private int bonusInt=2;
+
+    private int bonusVit = 0;
+    private int bonusStr = 0;
+    private int bonusDex = 0;
+    private int bonusInt = 0;
 }

@@ -13,12 +13,6 @@ public class Mage extends Character {
         super(name, startingAttributes, mage);
     }
 
-    @Override
-    public boolean canEquip(ItemInterface itemInterface) {
-        equip(itemInterface);
-        return false;
-    }
-
     public void levelUp() {
         this.incrementAttributes(new int[]{1, 2, 3, 4});
         this.level=this.level+1;

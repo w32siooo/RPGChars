@@ -12,12 +12,6 @@ public class Warrior extends Character  {
         super(name, startingAttributes, Warrior);
     }
 
-    @Override
-    public boolean canEquip(ItemInterface itemInterface) {
-        System.out.println("equipping " + itemInterface.getItemName());
-        return equip(itemInterface);
-    }
-
     public void levelUp() {
         this.incrementAttributes(new int[]{5, 3, 2, 1});
         this.level = this.level + 1;

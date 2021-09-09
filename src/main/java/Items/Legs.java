@@ -1,19 +1,27 @@
 package Items;
 
+import Characters.BonusAttributes;
 import Enums.ArmorType;
 import Enums.Slot;
 
 public class Legs implements ItemInterface, ArmorInterface {
 
-    public Legs(String name, ArmorType armorType, int levelReq) {
+    public Legs(String name, ArmorType armorType, int levelReq, int strength, int vitality, int dexterity, int intelligence) {
         this.name = name;
         this.armorType = armorType;
         this.levelReq = levelReq;
+        this.bonusAttributes = new BonusAttributes(vitality,strength,dexterity,intelligence);
+
     }
 
     @Override
     public ArmorType getArmorType() {
         return null;
+    }
+
+    @Override
+    public BonusAttributes getBonusAttributes() {
+        return bonusAttributes;
     }
 
 
@@ -36,4 +44,5 @@ public class Legs implements ItemInterface, ArmorInterface {
     private Slot bodySlot = Slot.HEAD;
     private ArmorType armorType;
     private int levelReq;
+    private BonusAttributes bonusAttributes;
 }
