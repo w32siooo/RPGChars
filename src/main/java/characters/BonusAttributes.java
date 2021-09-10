@@ -9,10 +9,11 @@ public class BonusAttributes {
     }
 
     public void updateAttributes(int bonusVit, int bonusStr, int bonusDex, int bonusInt) {
+        this.bonusVit += bonusVit;
+        this.bonusStr += bonusStr;
         this.bonusDex += bonusDex;
         this.bonusInt += bonusInt;
-        this.bonusStr += bonusStr;
-        this.bonusVit += bonusVit;
+
     }
 
     public int getBonusVit() {

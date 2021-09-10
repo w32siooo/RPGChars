@@ -172,11 +172,6 @@ public abstract class Character {
         return this.dps;
     }
 
-    public void incrementAttributes(int[] array) {
-        this.primAttr.setBaseVit(this.primAttr.getBaseVit() + array[0]);
-        this.primAttr.setBaseDex(this.primAttr.getBaseDex() + array[1]);
-        this.primAttr.setBaseStr(this.primAttr.getBaseStr() + array[2]);
-        this.primAttr.setBaseInt(this.primAttr.getBaseInt() + array[3]);
-    }
+
 }
 

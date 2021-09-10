@@ -5,6 +5,8 @@ import enums.CharTypes;
 
 public class Rogue extends Character {
     private static final int[] startingAttributes = {8, 2, 6, 1};
+    private static final int[] levelUpAttributes = {3, 1, 4, 1};
+
     private static final CharTypes rogueType = CharTypes.ROGUE;
 
     public Rogue(String name) {
@@ -13,7 +15,7 @@ public class Rogue extends Character {
 
     @Override
     public void levelUp() {
-        this.incrementAttributes(new int[]{3, 1, 4, 1});
+        super.primAttr.incrementAttributes(levelUpAttributes);
         this.level = this.level + 1;
     }
 }

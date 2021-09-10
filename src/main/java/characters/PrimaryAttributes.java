@@ -1,5 +1,6 @@
 package characters;
-class PrimaryAttributes{
+
+public class PrimaryAttributes {
     private int baseVit, baseStr, baseDex, baseInt;
 
     public PrimaryAttributes(int baseVit, int baseStr, int baseDex, int baseInt) {
@@ -7,6 +8,13 @@ class PrimaryAttributes{
         this.baseStr = baseStr;
         this.baseDex = baseDex;
         this.baseInt = baseInt;
+    }
+
+    public void incrementAttributes(int[] levelUpAttributes) {
+        this.baseVit = baseVit + levelUpAttributes[0];
+        this.baseStr = baseStr + levelUpAttributes[1];
+        this.baseDex = baseDex + levelUpAttributes[2];
+        this.baseInt = baseInt + levelUpAttributes[3];
     }
 
     @Override
