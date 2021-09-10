@@ -1,4 +1,4 @@
-package characters;
+package exceptions;
 
 public class InvalidItemException extends Exception {
     public InvalidItemException(String errorMessage) {

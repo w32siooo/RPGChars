@@ -1,17 +1,11 @@
-package items;
+package items.armors;
 
 import characters.BonusAttributes;
 import enums.ArmorType;
 import enums.Slot;
+import items.ItemInterface;
 
-public class Head implements ItemInterface, ArmorInterface {
-
-    public Head(String name, ArmorType armorType, int levelReq, int strength, int vitality, int dexterity, int intelligence) {
-        this.name = name;
-        this.armorType = armorType;
-        this.levelReq = levelReq;
-        this.bonusAttributes = new BonusAttributes(vitality,strength,dexterity,intelligence);
-    }
+public class Body implements ItemInterface, ArmorInterface {
 
     @Override
     public ArmorType getArmorType() {
@@ -38,8 +32,15 @@ public class Head implements ItemInterface, ArmorInterface {
         return bodySlot;
     }
 
+    public Body(String name, ArmorType armorType, int levelReq, int strength, int vitality, int dexterity, int intelligence) {
+        this.name = name;
+        this.armorType = armorType;
+        this.levelReq = levelReq;
+        this.bonusAttributes = new BonusAttributes(vitality,strength,dexterity,intelligence);
+    }
+
     private String name;
-    private Slot bodySlot = Slot.HEAD;
+    private Slot bodySlot = Slot.BODY;
     private ArmorType armorType;
     private int levelReq;
     private BonusAttributes bonusAttributes;

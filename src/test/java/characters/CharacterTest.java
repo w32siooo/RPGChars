@@ -2,11 +2,10 @@ package characters;
 
 import characters.charactertypes.Mage;
 import enums.ArmorType;
-import enums.WeaponType;
-import items.*;
+import exceptions.InvalidItemException;
+import items.armors.Legs;
 
 import java.util.Arrays;
-import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.*;
 

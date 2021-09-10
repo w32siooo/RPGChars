@@ -1,4 +1,4 @@
-package items;
+package items.armors;
 
 import characters.BonusAttributes;
 import enums.ArmorType;

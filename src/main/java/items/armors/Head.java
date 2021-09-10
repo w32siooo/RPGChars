@@ -1,12 +1,13 @@
-package items;
+package items.armors;
 
 import characters.BonusAttributes;
 import enums.ArmorType;
 import enums.Slot;
+import items.ItemInterface;
 
-public class Legs implements ItemInterface, ArmorInterface {
+public class Head implements ItemInterface, ArmorInterface {
 
-    public Legs(String name, ArmorType armorType, int levelReq, int strength, int vitality, int dexterity, int intelligence) {
+    public Head(String name, ArmorType armorType, int levelReq, int strength, int vitality, int dexterity, int intelligence) {
         this.name = name;
         this.armorType = armorType;
         this.levelReq = levelReq;

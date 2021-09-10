@@ -1,10 +1,13 @@
 package items;
 
 import characters.charactertypes.Warrior;
-import characters.InvalidItemException;
+import exceptions.InvalidItemException;
 import enums.ArmorType;
 import enums.Slot;
 import enums.WeaponType;
+import items.armors.ArmorInterface;
+import items.armors.Body;
+import items.weapons.Weapon;
 
 import static org.junit.jupiter.api.Assertions.*;
 

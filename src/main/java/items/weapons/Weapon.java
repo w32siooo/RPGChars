@@ -1,7 +1,8 @@
-package items;
+package items.weapons;
 
 import enums.Slot;
 import enums.WeaponType;
+import items.ItemInterface;
 
 public class Weapon implements ItemInterface, WeaponInterface {
 

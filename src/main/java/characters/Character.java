@@ -3,10 +3,11 @@ package characters;
 import enums.ArmorType;
 import enums.Slot;
 import enums.WeaponType;
-import items.ArmorInterface;
+import exceptions.InvalidItemException;
+import items.armors.ArmorInterface;
 import items.ItemInterface;
 import enums.CharTypes;
-import items.WeaponInterface;
+import items.weapons.WeaponInterface;
 import util.Logger;
 
 import java.io.IOException;
