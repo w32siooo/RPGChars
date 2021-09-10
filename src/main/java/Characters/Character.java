@@ -8,6 +8,7 @@ import Items.ItemInterface;
 import Enums.CharTypes;
 import Items.WeaponInterface;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public abstract class Character {
@@ -42,14 +43,19 @@ public abstract class Character {
         sb.append("name: " + name + " ");
         sb.append("charType: " + charType + " ");
         sb.append("level: " + level + " ");
-        //sb.append("dps: " + dps+" ");
-        //sb.append(totAttr.toString());
+        sb.append("dps: " + dps+" ");
+        sb.append("str/vit/dex/int: " + Arrays.toString(returnTotalAttributes()));
         sb.append(primAttr.toString());
 
         return sb.toString();
     }
 
-    public Boolean equip(ItemInterface itemInterface) {
+    public int[] returnTotalAttributes() {
+
+        return new int[]{primAttr.getBaseStr() + bonusAttr.getBonusStr(), primAttr.getBaseVit() + bonusAttr.getBonusVit(), primAttr.getBaseDex() + bonusAttr.getBonusDex(), primAttr.getBaseInt() + bonusAttr.getBonusInt()};
+    }
+
+    public ItemInterface equip(ItemInterface itemInterface) {
         Slot slot = itemInterface.getSlot();
         ArmorType armorType = null;
         WeaponType weaponType = null;
@@ -88,7 +94,7 @@ public abstract class Character {
 
             }
         }
-        return true;
+        return itemInterface;
     }
 
     //private method to update attributes, runs every time a new armor item is equipped.
@@ -109,7 +115,7 @@ public abstract class Character {
             case WARRIOR -> {
                 if (equipment.get(Slot.WEAPON).getItemName() != null) {
                     WeaponInterface weapon = (WeaponInterface) equipment.get(Slot.WEAPON);
-                    dps = weapon.getDamage() * weapon.getAttackSpeed() + (1 +( this.bonusAttr.getBonusStr() + this.primAttr.getBaseStr() )/ 100.0); //damage * attackspeed + (1+primAttr/100)
+                    dps = weapon.getDamage() * weapon.getAttackSpeed() + (1 + (this.bonusAttr.getBonusStr() + this.primAttr.getBaseStr()) / 100.0); //damage * attackspeed + (1+primAttr/100)
                 } else {
                     dps = (1 + this.primAttr.getBaseStr() / 100.0);
                 }
@@ -118,7 +124,7 @@ public abstract class Character {
             case MAGE -> {
                 if (equipment.get(Slot.WEAPON).getItemName() != null) {
                     WeaponInterface weapon = (WeaponInterface) equipment.get(Slot.WEAPON);
-                    dps = weapon.getDamage() * weapon.getAttackSpeed() + (1 + (this.bonusAttr.getBonusInt() + this.primAttr.getBaseInt() )/ 100.0); //damage * attackspeed + (1+primAttr/100)
+                    dps = weapon.getDamage() * weapon.getAttackSpeed() + (1 + (this.bonusAttr.getBonusInt() + this.primAttr.getBaseInt()) / 100.0); //damage * attackspeed + (1+primAttr/100)
                 } else {
                     dps = (1 + this.primAttr.getBaseInt() / 100.0);
                 }

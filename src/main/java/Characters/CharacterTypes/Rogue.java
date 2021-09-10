@@ -12,8 +12,9 @@ public class Rogue extends Character {
         super(name, startingAttributes, rogue);
     }
 
+    @Override
     public void levelUp() {
         this.incrementAttributes(new int[]{3, 1, 4, 1});
-        this.level=this.level+1;
+        this.level = this.level + 1;
     }
 }

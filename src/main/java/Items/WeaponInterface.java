@@ -11,5 +11,4 @@ public interface WeaponInterface {
 
     public WeaponType getWeaponType();
 
-
 }

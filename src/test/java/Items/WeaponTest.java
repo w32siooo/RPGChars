@@ -8,33 +8,97 @@ import Enums.WeaponType;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WeaponTest {
-    @org.junit.jupiter.api.Test
-    void Weapon() {
-        Weapon testWeapon = new Weapon("Common Axe", 1.1, 7, 1,WeaponType.AXE);
 
-        assertEquals(7, testWeapon.getDamage(), "damage should be 7");
-        assertEquals(Slot.WEAPON, testWeapon.getSlot(), "Slot should be WEAPON");
-        assertEquals(1.1, testWeapon.getAttackSpeed(), "Attack speed should be 1.1");
-        assertEquals(1, testWeapon.getLevelReq(), "damage should be 7");
+    @org.junit.jupiter.api.Test
+    void equipWeaponThatFits() {
+        // Arrange
+        String itemName = "Common Axe";
+        int damage = 1;
+        double attackSpeed = 1.0;
+        int levelReq = 1;
+        WeaponType axe = WeaponType.AXE;
+        ItemInterface testWeapon = new Weapon(itemName, attackSpeed, damage, levelReq, axe);
+        String characterName = "Gjunhildur";
+        Warrior warrior = new Warrior(characterName);
+
+        // Act
+        Weapon expected = (Weapon) warrior.equip(testWeapon); //Expected
+        Weapon weapon = (Weapon) warrior.getEquipment().get(Slot.WEAPON);
+
+        // Assert
+        assertEquals(expected, weapon, "Verify that weapon is equipped.");
+
+        Body testClothBody = new Body("Cloth Armor", ArmorType.CLOTH, 1, 5, 4, 3, 2);
+        warrior.equip(testClothBody);
+        assertNotEquals(testClothBody, warrior.getEquipment().get(Slot.BODY), "should fail because warrior can't equip cloth!");
+        assertEquals(3, Math.ceil(warrior.calculateDps()));
+    }
+
+    @org.junit.jupiter.api.Test
+    void equipWeaponThatDoesntFit() {
+        // Arrange
+        int damage = 1;
+        double attackSpeed = 1.0;
+        int levelReq = 1;
+        String itemName = "Common Axe";
+        WeaponType axe = WeaponType.STAFF;
+        ItemInterface testWeapon = new Weapon(itemName, attackSpeed, damage, levelReq, axe);
+        String characterName = "Gjunhildur";
+        Warrior warrior = new Warrior(characterName);
+
+        // Act
+        warrior.equip(testWeapon);
+        Weapon equippedWeapon = (Weapon) warrior.getEquipment().get(Slot.WEAPON);
+
+        // Assert
+        assertNull(equippedWeapon, "Verify that weapon is not equipped.");
+    }
+
+    @org.junit.jupiter.api.Test
+    void equipFittingArmor(){
+        // Arrange
+        String characterName = "Gjunhildur";
+        Warrior warrior = new Warrior(characterName);
+        int levelReq = 1;
+        int bonusStr = 1;
+        int bonusVit = 0;
+        int bonusDex = 0;
+        int bonusInt = 0;
+        String plateArmorName = "Basic Plate Armor";
+        ArmorType plateArmorType = ArmorType.PLATE;
+
+        Body testPlateBody = new Body(plateArmorName, plateArmorType, levelReq, bonusStr, bonusVit, bonusDex, bonusInt);
+
+        // Act
+        warrior.equip(testPlateBody);
+
+        // Assert
+        assertEquals(testPlateBody, warrior.getEquipment().get(Slot.BODY), "should fail because warrior can't equip cloth!");
 
     }
 
     @org.junit.jupiter.api.Test
-    void Equip() {
+    void equipNonFittingArmor(){
+        // Arrange
+        String characterName = "Gjunhildur";
+        Warrior warrior = new Warrior(characterName);
+        String clothArmorName = "Basic Cloth Armor";
+        int levelReq = 1;
+        int bonusStr = 1;
+        int bonusVit = 0;
+        int bonusDex = 0;
+        int bonusInt = 0;
+        ArmorType clothArmorType = ArmorType.CLOTH;
 
-        ItemInterface testWeapon = new Weapon("Common Axe", 1.1, 7, 1, WeaponType.AXE);
-        Warrior w = new Warrior("vos");
-        w.equip(testWeapon);
-        assertEquals(testWeapon, w.getEquipment().get(Slot.WEAPON), "Verify that weapon is equipped.");
-        ItemInterface testStaff = new Weapon("Common Axe", 1.1, 7, 1, WeaponType.STAFF);
-        w.equip(testStaff);
-        assertNotEquals(testStaff, w.getEquipment().get(Slot.WEAPON), "warrior cant equip staff, should fail!");
-        Body testPlateBody = new Body("Plate Armor", ArmorType.PLATE, 1,5,4,3,2);
-        Body testClothBody = new Body("Cloth Armor", ArmorType.CLOTH, 1,5,4,3,2);
-        w.equip(testPlateBody);
-        assertEquals(testPlateBody, w.getEquipment().get(Slot.BODY), "should fail because warrior can't equip cloth!");
-        w.equip(testClothBody);
-        assertNotEquals(testClothBody, w.getEquipment().get(Slot.BODY), "should fail because warrior can't equip cloth!");
-        assertEquals(9, Math.ceil(w.calculateDps()));
+        Body testPlateBody = new Body(clothArmorName, clothArmorType, levelReq, bonusStr, bonusVit, bonusDex, bonusInt);
+
+        // Act
+        warrior.equip(testPlateBody);
+        ArmorInterface equippedBody = (ArmorInterface) warrior.getEquipment().get(Slot.BODY);
+
+        // Assert
+        assertNull(equippedBody, "should fail because warrior can't equip cloth!");
+
     }
+
 }

@@ -13,20 +13,12 @@ public class Mage extends Character {
         super(name, startingAttributes, mage);
     }
 
+    @Override
     public void levelUp() {
         this.incrementAttributes(new int[]{1, 2, 3, 4});
         this.level=this.level+1;
-    }
-
-    public static void main(String[] args) {
-
-        Mage thaliya = new Mage("thaliya");
-        thaliya.levelUp();
-        thaliya.levelUp();
-        thaliya.levelUp();
-        System.out.println(thaliya.displayStats());
-        //Weapon testWeapon = new Weapon("Common Axe",1,7,1.1);
-        
+        int i =5;
+        Integer.toString(5);
     }
 
 }

@@ -11,7 +11,6 @@ public class Ranger extends Character {
         super(name, startingAttributes, ranger);
     }
 
-
     @Override
     public void levelUp() {
         this.incrementAttributes(new int[]{2, 1, 5, 1});
