@@ -17,6 +17,7 @@ public class Mage extends Character {
     public void levelUp() {
         super.primAttr.incrementAttributes(levelUpAttributes);
         this.level = this.level + 1;
+        super.calculateDps();
     }
 
 }

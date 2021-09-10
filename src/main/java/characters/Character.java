@@ -54,15 +54,18 @@ public abstract class Character {
     }
 
     public int[] returnTotalAttributes() {
-        int[] a = new int[]{primAttr.getBaseVit() + bonusAttr.getBonusVit(), primAttr.getBaseStr() + bonusAttr.getBonusStr(), primAttr.getBaseDex() + bonusAttr.getBonusDex(), primAttr.getBaseInt() + bonusAttr.getBonusInt()};
-        return a;
+        return new int[]{primAttr.getBaseVit() + bonusAttr.getBonusVit(), primAttr.getBaseStr() + bonusAttr.getBonusStr(), primAttr.getBaseDex() + bonusAttr.getBonusDex(), primAttr.getBaseInt() + bonusAttr.getBonusInt()};
     }
 
-    public ItemInterface equip(Slot slot, ItemInterface item) {
+    private ItemInterface equip(Slot slot, ItemInterface item) throws InvalidItemException {
 
         if (slot != Slot.WEAPON) updateAttributes((ArmorInterface) item);
 
-        return equipment.put(slot, item);
+        if (item.getLevelReq() > level) throw new InvalidItemException("Level too low to equip this item!");
+        else {
+            calculateDps();
+            return equipment.put(slot, item);
+        }
     }
 
     public ItemInterface equip(ItemInterface itemInterface) throws InvalidItemException {
@@ -115,7 +118,7 @@ public abstract class Character {
 
         switch (charType) {
             case WARRIOR -> {
-                if (equipment.get(Slot.WEAPON).getItemName() != null) {
+                if (equipment.get(Slot.WEAPON) != null) {
                     WeaponInterface weapon = (WeaponInterface) equipment.get(Slot.WEAPON);
                     dps = weapon.getDamage() * weapon.getAttackSpeed() + (1 + (this.bonusAttr.getBonusStr() + this.primAttr.getBaseStr()) / 100.0); //damage * attackspeed + (1+primAttr/100)
                 } else {
@@ -124,7 +127,7 @@ public abstract class Character {
 
             }
             case MAGE -> {
-                if (equipment.get(Slot.WEAPON).getItemName() != null) {
+                if (equipment.get(Slot.WEAPON) != null) {
                     WeaponInterface weapon = (WeaponInterface) equipment.get(Slot.WEAPON);
                     dps = weapon.getDamage() * weapon.getAttackSpeed() + (1 + (this.bonusAttr.getBonusInt() + this.primAttr.getBaseInt()) / 100.0); //damage * attackspeed + (1+primAttr/100)
                 } else {
@@ -132,7 +135,7 @@ public abstract class Character {
                 }
             }
             case RANGER, ROGUE -> {
-                if (equipment.get(Slot.WEAPON).getItemName() != null) {
+                if (equipment.get(Slot.WEAPON) != null) {
                     WeaponInterface weapon = (WeaponInterface) equipment.get(Slot.WEAPON);
                     dps = weapon.getDamage() * weapon.getAttackSpeed() + (1 + (this.bonusAttr.getBonusDex() + this.primAttr.getBaseDex()) / 100.0); //damage * attackspeed + (1+primAttr/100)
                 } else {

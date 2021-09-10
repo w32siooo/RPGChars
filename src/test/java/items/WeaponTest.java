@@ -67,6 +67,37 @@ class WeaponTest {
     }
 
     @org.junit.jupiter.api.Test
+    void equipTooHighLevelItem() {
+        // Arrange
+        int damage = 1;
+        double attackSpeed = 1.0;
+        int levelReq = 10;
+        String itemName = "Common Axe";
+        WeaponType axe = WeaponType.AXE;
+        ItemInterface testWeapon = new Weapon(itemName, attackSpeed, damage, levelReq, axe);
+        String characterName = "Gjunhildur";
+        Warrior warrior = new Warrior(characterName);
+
+        // Act
+        try {
+            warrior.equip(testWeapon);
+        } catch (InvalidItemException e) {
+            e.printStackTrace();
+        }
+        Weapon equippedWeapon = (Weapon) warrior.getEquipment().get(Slot.WEAPON);
+
+        // Assert
+        assertNull(equippedWeapon, "Verify that weapon is not equipped.");
+        InvalidItemException thrown = assertThrows(
+                InvalidItemException.class,
+                () -> warrior.equip(testWeapon),
+                "Expected warrior.equip(testWeapon) to throw, because warrior can't equip STAFF."
+        );
+
+        assertTrue(thrown.getMessage().contains("Level too low to equip this item!"));
+    }
+
+    @org.junit.jupiter.api.Test
     void equipFittingArmor() {
         // Arrange
         String characterName = "Gjunhildur";
