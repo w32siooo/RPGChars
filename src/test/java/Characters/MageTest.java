@@ -37,7 +37,7 @@ class MageTest {
     }
 
     @org.junit.jupiter.api.Test
-    void getTotalAttributes() {
+    void getTotalAttributes() throws InvalidItemException {
         Mage thaliya = new Mage("Thaliya");
         assertEquals(Arrays.toString(new int[]{1, 5, 1, 8}), Arrays.toString(thaliya.returnTotalAttributes()), "basic mage has 1str 5 vit, 1dex, 8 int");
         thaliya.levelUp();

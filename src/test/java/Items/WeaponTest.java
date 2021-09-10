@@ -1,6 +1,7 @@
 package Items;
 
 import Characters.CharacterTypes.Warrior;
+import Characters.InvalidItemException;
 import Enums.ArmorType;
 import Enums.Slot;
 import Enums.WeaponType;
@@ -22,14 +23,23 @@ class WeaponTest {
         Warrior warrior = new Warrior(characterName);
 
         // Act
-        Weapon expected = (Weapon) warrior.equip(testWeapon); //Expected
+        Weapon expected = null; //Expected
+        try {
+            expected = (Weapon) warrior.equip(testWeapon);
+        } catch (InvalidItemException e) {
+            e.printStackTrace();
+        }
         Weapon weapon = (Weapon) warrior.getEquipment().get(Slot.WEAPON);
 
         // Assert
         assertEquals(expected, weapon, "Verify that weapon is equipped.");
 
         Body testClothBody = new Body("Cloth Armor", ArmorType.CLOTH, 1, 5, 4, 3, 2);
-        warrior.equip(testClothBody);
+        try {
+            warrior.equip(testClothBody);
+        } catch (InvalidItemException e) {
+            e.printStackTrace();
+        }
         assertNotEquals(testClothBody, warrior.getEquipment().get(Slot.BODY), "should fail because warrior can't equip cloth!");
         assertEquals(3, Math.ceil(warrior.calculateDps()));
     }
@@ -47,7 +57,11 @@ class WeaponTest {
         Warrior warrior = new Warrior(characterName);
 
         // Act
-        warrior.equip(testWeapon);
+        try {
+            warrior.equip(testWeapon);
+        } catch (InvalidItemException e) {
+            e.printStackTrace();
+        }
         Weapon equippedWeapon = (Weapon) warrior.getEquipment().get(Slot.WEAPON);
 
         // Assert
@@ -70,7 +84,11 @@ class WeaponTest {
         Body testPlateBody = new Body(plateArmorName, plateArmorType, levelReq, bonusStr, bonusVit, bonusDex, bonusInt);
 
         // Act
-        warrior.equip(testPlateBody);
+        try {
+            warrior.equip(testPlateBody);
+        } catch (InvalidItemException e) {
+            e.printStackTrace();
+        }
 
         // Assert
         assertEquals(testPlateBody, warrior.getEquipment().get(Slot.BODY), "should fail because warrior can't equip cloth!");
@@ -93,7 +111,11 @@ class WeaponTest {
         Body testPlateBody = new Body(clothArmorName, clothArmorType, levelReq, bonusStr, bonusVit, bonusDex, bonusInt);
 
         // Act
-        warrior.equip(testPlateBody);
+        try {
+            warrior.equip(testPlateBody);
+        } catch (InvalidItemException e) {
+            e.printStackTrace();
+        }
         ArmorInterface equippedBody = (ArmorInterface) warrior.getEquipment().get(Slot.BODY);
 
         // Assert

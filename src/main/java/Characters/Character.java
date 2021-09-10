@@ -43,7 +43,7 @@ public abstract class Character {
         sb.append("name: " + name + " ");
         sb.append("charType: " + charType + " ");
         sb.append("level: " + level + " ");
-        sb.append("dps: " + dps+" ");
+        sb.append("dps: " + dps + " ");
         sb.append("str/vit/dex/int: " + Arrays.toString(returnTotalAttributes()));
         sb.append(primAttr.toString());
 
@@ -55,7 +55,7 @@ public abstract class Character {
         return new int[]{primAttr.getBaseStr() + bonusAttr.getBonusStr(), primAttr.getBaseVit() + bonusAttr.getBonusVit(), primAttr.getBaseDex() + bonusAttr.getBonusDex(), primAttr.getBaseInt() + bonusAttr.getBonusInt()};
     }
 
-    public ItemInterface equip(ItemInterface itemInterface) {
+    public ItemInterface equip(ItemInterface itemInterface) throws InvalidItemException {
         Slot slot = itemInterface.getSlot();
         ArmorType armorType = null;
         WeaponType weaponType = null;
@@ -73,23 +73,35 @@ public abstract class Character {
             case WARRIOR -> {
                 if (armorType == ArmorType.PLATE || armorType == ArmorType.MAIL || weaponType == WeaponType.AXE || weaponType == WeaponType.HAMMER || weaponType == WeaponType.SWORD)
                     equipment.put(slot, itemInterface);
+                else {
+                    throw new InvalidItemException("Invalid "+ itemInterface.getSlot() +" Equipped");
+                }
                 if (isArmor) updateAttributes((ArmorInterface) itemInterface);
             }
             case MAGE -> {
                 if (armorType == ArmorType.CLOTH || weaponType == WeaponType.STAFF || weaponType == WeaponType.WAND)
                     equipment.put(slot, itemInterface);
+                else {
+                    throw new InvalidItemException("Invalid "+ itemInterface.getSlot() +" Equipped");
+                }
                 if (isArmor) updateAttributes((ArmorInterface) itemInterface);
 
             }
             case ROGUE -> {
                 if (armorType == ArmorType.LEATHER || armorType == ArmorType.MAIL || weaponType == WeaponType.BOW)
                     equipment.put(slot, itemInterface);
+                else {
+                    throw new InvalidItemException("Invalid "+ itemInterface.getSlot() +" Equipped");
+                }
                 if (isArmor) updateAttributes((ArmorInterface) itemInterface);
 
             }
             case RANGER -> {
                 if (armorType == ArmorType.LEATHER || armorType == ArmorType.MAIL || weaponType == WeaponType.DAGGER || weaponType == WeaponType.SWORD)
                     equipment.put(slot, itemInterface);
+                else {
+                    throw new InvalidItemException("Invalid "+ itemInterface.getSlot() +" Equipped");
+                }
                 if (isArmor) updateAttributes((ArmorInterface) itemInterface);
 
             }
