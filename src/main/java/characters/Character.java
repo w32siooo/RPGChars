@@ -54,70 +54,49 @@ public abstract class Character {
     }
 
     public int[] returnTotalAttributes() {
-
-        return new int[]{primAttr.getBaseStr() + bonusAttr.getBonusStr(), primAttr.getBaseVit() + bonusAttr.getBonusVit(), primAttr.getBaseDex() + bonusAttr.getBonusDex(), primAttr.getBaseInt() + bonusAttr.getBonusInt()};
+        int[] a = new int[]{primAttr.getBaseVit() + bonusAttr.getBonusVit(), primAttr.getBaseStr() + bonusAttr.getBonusStr(), primAttr.getBaseDex() + bonusAttr.getBonusDex(), primAttr.getBaseInt() + bonusAttr.getBonusInt()};
+        return a;
     }
 
-    public ItemInterface findType(ItemInterface itemInterface){
+    public ItemInterface equip(Slot slot, ItemInterface item) {
 
-        return itemInterface;
+        if (slot != Slot.WEAPON) updateAttributes((ArmorInterface) item);
+
+        return equipment.put(slot, item);
     }
 
     public ItemInterface equip(ItemInterface itemInterface) throws InvalidItemException {
         Slot slot = itemInterface.getSlot();
         ArmorType armorType = null;
         WeaponType weaponType = null;
-        boolean isArmor = false;
         if (slot != Slot.WEAPON) {
             ArmorInterface armor = (ArmorInterface) itemInterface;
             armorType = armor.getArmorType();
-            isArmor = true;
-        }
-        else  {
+        } else {
             WeaponInterface weapon = (WeaponInterface) itemInterface;
             weaponType = weapon.getWeaponType();
         }
 
-        String invalid = "invalid";
-        String equipped = "equipped";
         switch (charType) {
             case WARRIOR -> {
                 if (armorType == ArmorType.PLATE || armorType == ArmorType.MAIL || weaponType == WeaponType.AXE || weaponType == WeaponType.HAMMER || weaponType == WeaponType.SWORD)
-                    equipment.put(slot, itemInterface);
-                else {
-                    throw new InvalidItemException(invalid + itemInterface.getSlot() + equipped);
-                }
-                if (isArmor) updateAttributes((ArmorInterface) itemInterface);
+                    return equip(slot, itemInterface);
             }
             case MAGE -> {
                 if (armorType == ArmorType.CLOTH || weaponType == WeaponType.STAFF || weaponType == WeaponType.WAND)
-                    equipment.put(slot, itemInterface);
-                else {
-                    throw new InvalidItemException(invalid + itemInterface.getSlot() + equipped);
-                }
-                if (isArmor) updateAttributes((ArmorInterface) itemInterface);
-
+                    return equip(slot, itemInterface);
             }
+
             case ROGUE -> {
                 if (armorType == ArmorType.LEATHER || armorType == ArmorType.MAIL || weaponType == WeaponType.BOW)
-                    equipment.put(slot, itemInterface);
-                else {
-                    throw new InvalidItemException(invalid + itemInterface.getSlot() + equipped);
-                }
-                if (isArmor) updateAttributes((ArmorInterface) itemInterface);
-
+                    return equip(slot, itemInterface);
             }
             case RANGER -> {
                 if (armorType == ArmorType.LEATHER || armorType == ArmorType.MAIL || weaponType == WeaponType.DAGGER || weaponType == WeaponType.SWORD)
-                    equipment.put(slot, itemInterface);
-                else {
-                    throw new InvalidItemException(invalid + itemInterface.getSlot() + equipped);
-                }
-                if (isArmor) updateAttributes((ArmorInterface) itemInterface);
-
+                    return equip(slot, itemInterface);
             }
         }
-        return itemInterface;
+        throw new InvalidItemException("invalid" + itemInterface.getSlot() + "equipped");
     }
 
     //private method to update attributes, runs every time a new armor item is equipped.

@@ -23,25 +23,16 @@ class WeaponTest {
         Warrior warrior = new Warrior(characterName);
 
         // Act
-        Weapon expected = null; //Expected
         try {
-            expected = (Weapon) warrior.equip(testWeapon);
+            warrior.equip(testWeapon);
         } catch (InvalidItemException e) {
             e.printStackTrace();
         }
         Weapon weapon = (Weapon) warrior.getEquipment().get(Slot.WEAPON);
 
         // Assert
-        assertEquals(expected, weapon, "Verify that weapon is equipped.");
+        assertEquals(testWeapon, weapon, "Verify that weapon is equipped.");
 
-        Body testClothBody = new Body("Cloth Armor", ArmorType.CLOTH, 1, 5, 4, 3, 2);
-        try {
-            warrior.equip(testClothBody);
-        } catch (InvalidItemException e) {
-            e.printStackTrace();
-        }
-        assertNotEquals(testClothBody, warrior.getEquipment().get(Slot.BODY), "should fail because warrior can't equip cloth!");
-        assertEquals(3, Math.ceil(warrior.calculateDps()));
     }
 
     @org.junit.jupiter.api.Test
@@ -76,7 +67,7 @@ class WeaponTest {
     }
 
     @org.junit.jupiter.api.Test
-    void equipFittingArmor(){
+    void equipFittingArmor() {
         // Arrange
         String characterName = "Gjunhildur";
         Warrior warrior = new Warrior(characterName);
@@ -103,7 +94,7 @@ class WeaponTest {
     }
 
     @org.junit.jupiter.api.Test
-    void equipNonFittingArmor(){
+    void equipNonFittingArmor() {
         // Arrange
         String characterName = "Gjunhildur";
         Warrior warrior = new Warrior(characterName);

@@ -3,8 +3,7 @@ package characters;
 import characters.charactertypes.Mage;
 import enums.ArmorType;
 import enums.WeaponType;
-import items.Head;
-import items.Weapon;
+import items.*;
 
 import java.util.Arrays;
 import java.util.function.Supplier;
@@ -13,42 +12,55 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CharacterTest {
 
-    @org.junit.jupiter.api.BeforeEach
-    void setUp() {
-        Mage thaliya = new Mage("Thaliya");
-        assertEquals(1, thaliya.getLevel(), "Level should be 1 after initiation.");
-    }
-
-    @org.junit.jupiter.api.AfterEach
-    void tearDown() {
-        Mage thaliya = new Mage("Thaliya");
-        thaliya = null;
-        assertNull(null, (Supplier<String>) thaliya);
-    }
-
     @org.junit.jupiter.api.Test
     void levelUp() {
+        // Arrange
         Mage thaliya = new Mage("Thaliya");
+
+        // Act
         thaliya.levelUp();
         thaliya.levelUp();
         thaliya.levelUp();
+
+        // Assert
         assertEquals(4, thaliya.getLevel(), "Level should be 4 after 3 level ups.");
     }
 
     @org.junit.jupiter.api.Test
     void getTotalAttributes() throws InvalidItemException {
+        // Arrange
         Mage thaliya = new Mage("Thaliya");
-        assertEquals(Arrays.toString(new int[]{1, 5, 1, 8}), Arrays.toString(thaliya.returnTotalAttributes()), "basic mage has 1str 5 vit, 1dex, 8 int");
+        int[] a = new int[]{8, 2, 2, 13};
+
+        // Act
         thaliya.levelUp();
-        thaliya.levelUp();
-        thaliya.levelUp();
-        Weapon staff = new Weapon("Staff of red", 1.5, 5, 1, WeaponType.STAFF);
-        thaliya.equip(staff);
-        assertEquals(Arrays.toString(new int[]{10, 8, 7, 20}), Arrays.toString(thaliya.returnTotalAttributes()));
-        Head clothHead = new Head("Quilted vest", ArmorType.CLOTH, 1, 1, 5, 5, 15);
-        thaliya.equip(clothHead);
-        assertEquals(Arrays.toString(new int[]{11, 13, 12, 35}), Arrays.toString(thaliya.returnTotalAttributes()), "After we equip the cloth vest, stats should increase");
-        assertEquals("name: Thaliya charType: MAGE level: 4 dps: 0.0 str/vit/dex/int: [11, 13, 12, 35]PrimaryAttributes baseVit=8, baseStr=10, baseDex=7, baseInt=20", thaliya.displayStats());
+
+        // Assert
+        assertEquals(Arrays.toString(a), Arrays.toString(thaliya.returnTotalAttributes()));
     }
+
+    @org.junit.jupiter.api.Test
+    void armorAttributeTest() throws InvalidItemException {
+        // Arrange
+        Mage thaliya = new Mage("Thaliya");
+        int[] a = new int[]{8, 2, 2, 14}; //After a level up and one bonus point of vitality.
+        int levelReq = 1;
+        int bonusStr = 0;
+        int bonusVit = 0;
+        int bonusDex = 0;
+        int bonusInt = 1;
+        String plateArmorName = "Basic Plate Armor";
+        ArmorType plateArmorType = ArmorType.PLATE;
+
+        Legs testLegs = new Legs(plateArmorName, plateArmorType, levelReq, bonusStr, bonusVit, bonusDex, bonusInt);
+
+        // Act
+        thaliya.equip(testLegs.getSlot(),testLegs);
+        thaliya.levelUp();
+
+        // Assert
+        assertEquals(Arrays.toString(a), Arrays.toString(thaliya.returnTotalAttributes()));
+    }
+
 
 }

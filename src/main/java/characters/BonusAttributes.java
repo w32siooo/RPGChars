@@ -36,4 +36,14 @@ public class BonusAttributes {
     private int bonusStr = 0;
     private int bonusDex = 0;
     private int bonusInt = 0;
+
+    @Override
+    public String toString() {
+        return "BonusAttributes{" +
+                "bonusVit=" + bonusVit +
+                ", bonusStr=" + bonusStr +
+                ", bonusDex=" + bonusDex +
+                ", bonusInt=" + bonusInt +
+                '}';
+    }
 }
