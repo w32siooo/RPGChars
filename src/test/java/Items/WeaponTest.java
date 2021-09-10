@@ -66,6 +66,13 @@ class WeaponTest {
 
         // Assert
         assertNull(equippedWeapon, "Verify that weapon is not equipped.");
+        InvalidItemException thrown = assertThrows(
+                InvalidItemException.class,
+                () -> warrior.equip(testWeapon),
+                "Expected warrior.equip(testWeapon) to throw, because warrior can't equip STAFF."
+        );
+
+        assertTrue(thrown.getMessage().contains("Invalid WEAPON Equipped"));
     }
 
     @org.junit.jupiter.api.Test
@@ -108,11 +115,11 @@ class WeaponTest {
         int bonusInt = 0;
         ArmorType clothArmorType = ArmorType.CLOTH;
 
-        Body testPlateBody = new Body(clothArmorName, clothArmorType, levelReq, bonusStr, bonusVit, bonusDex, bonusInt);
+        Body testClothBody = new Body(clothArmorName, clothArmorType, levelReq, bonusStr, bonusVit, bonusDex, bonusInt);
 
         // Act
         try {
-            warrior.equip(testPlateBody);
+            warrior.equip(testClothBody);
         } catch (InvalidItemException e) {
             e.printStackTrace();
         }
@@ -120,6 +127,14 @@ class WeaponTest {
 
         // Assert
         assertNull(equippedBody, "should fail because warrior can't equip cloth!");
+
+        InvalidItemException thrown = assertThrows(
+                InvalidItemException.class,
+                () -> warrior.equip(testClothBody),
+                "Expected warrior.equip(testClothBody) to throw, because warrior can't equip cloth."
+        );
+
+        assertTrue(thrown.getMessage().contains("Invalid BODY Equipped"));
 
     }
 
