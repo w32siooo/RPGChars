@@ -42,11 +42,11 @@ public class Head implements ItemInterface, ArmorInterface {
 
     @Override
     public Slot getSlot() {
-        return bodySlot;
+        return headSlot;
     }
 
     private String name;
-    private Slot bodySlot = Slot.HEAD;
+    private Slot headSlot = Slot.HEAD;
     private ArmorType armorType;
     private int levelReq;
     private EnumMap<Attributes, Integer> stats = new EnumMap<>(Attributes.class);

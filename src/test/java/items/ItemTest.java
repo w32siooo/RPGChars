@@ -12,7 +12,7 @@ import items.weapons.Weapon;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class WeaponTest {
+class ItemTest {
 
     @org.junit.jupiter.api.Test
     void equipWeaponThatFits() {

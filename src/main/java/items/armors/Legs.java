@@ -42,11 +42,11 @@ public class Legs implements ItemInterface, ArmorInterface {
 
     @Override
     public Slot getSlot() {
-        return bodySlot;
+        return legSlot;
     }
 
     private String name;
-    private Slot bodySlot = Slot.HEAD;
+    private Slot legSlot = Slot.LEGS;
     private ArmorType armorType;
     private int levelReq;
     private EnumMap<Attributes, Integer> stats = new EnumMap<>(Attributes.class);
