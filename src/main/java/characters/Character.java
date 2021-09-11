@@ -43,7 +43,7 @@ public abstract class Character {
         sb.append("name: " + name + " ");
         sb.append("charType: " + charType + " ");
         sb.append("level: " + level + " ");
-        sb.append("dps: " + dps + " ");
+        sb.append("dps: " + calculateDps() + " ");
         sb.append("Base stats: " + returnBaseAttributes());
         sb.append("Total stats: " + returnTotalAttributes());
 
@@ -114,7 +114,7 @@ public abstract class Character {
         return equipment;
     }
 
-    private double calculateDps() {
+    private String calculateDps() {
 
         if (equipment.get(Slot.WEAPON) != null) {
             WeaponInterface weapon = (WeaponInterface) equipment.get(Slot.WEAPON);
@@ -125,7 +125,8 @@ public abstract class Character {
 
         dps= Math.round(dps * 100d) / 100d; // Round to 2 digits precision.
 
-        return this.dps;
+
+        return String.format("%.2f", dps);
     }
 
     public static Object armorOrWeapon(ItemInterface itemInterface) {
