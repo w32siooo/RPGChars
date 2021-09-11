@@ -29,36 +29,36 @@ class CharacterTest {
     void getTotalAttributes() throws InvalidItemException {
         // Arrange
         Mage thaliya = new Mage("Thaliya");
-        int[] a = new int[]{8, 2, 2, 13};
+        String expected = "VITALITY: 8 STRENGTH: 2 DEXTERITY: 2 INTELLIGENCE: 13 ";
 
         // Act
         thaliya.levelUp();
 
         // Assert
-        assertEquals(Arrays.toString(a), thaliya.returnTotalAttributes());
+        assertEquals(expected, thaliya.returnTotalAttributes());
     }
 
     @org.junit.jupiter.api.Test
     void armorAttributeTest() throws InvalidItemException {
         // Arrange
         Mage thaliya = new Mage("Thaliya");
-        int[] a = new int[]{8, 2, 2, 14}; //After a level up and one bonus point of vitality.
+        String expected = "VITALITY: 8 STRENGTH: 2 DEXTERITY: 2 INTELLIGENCE: 14 "; // After a level up and one bonus point of vitality.
         int levelReq = 1;
         int bonusStr = 0;
         int bonusVit = 0;
         int bonusDex = 0;
         int bonusInt = 1;
-        String plateArmorName = "Basic Plate Armor";
-        ArmorType plateArmorType = ArmorType.CLOTH;
+        String plateArmorName = "Basic Cloth Armor";
+        ArmorType clothArmor = ArmorType.CLOTH;
 
-        Legs testLegs = new Legs(plateArmorName, plateArmorType, levelReq, bonusStr, bonusVit, bonusDex, bonusInt);
+        Legs testLegs = new Legs(plateArmorName, clothArmor, levelReq, bonusStr, bonusVit, bonusDex, bonusInt);
 
         // Act
         thaliya.equip(testLegs);
         thaliya.levelUp();
 
         // Assert
-        assertEquals(Arrays.toString(a), thaliya.returnTotalAttributes());
+        assertEquals(expected, thaliya.returnTotalAttributes());
     }
 
     @org.junit.jupiter.api.Test
@@ -66,6 +66,7 @@ class CharacterTest {
         // Arrange
         Mage thaliya = new Mage("Thaliya");
         int[] a = new int[]{8, 2, 2, 14}; //After a level up and one bonus point of vitality.
+        String expected = "name: Thaliya charType: MAGE level: 2 dps: 1.14 Base stats: VITALITY: 8 STRENGTH: 2 DEXTERITY: 2 INTELLIGENCE: 13 Total stats: VITALITY: 8 STRENGTH: 2 DEXTERITY: 2 INTELLIGENCE: 14 ";
         int levelReq = 1;
         int bonusStr = 0;
         int bonusVit = 0;
@@ -81,7 +82,7 @@ class CharacterTest {
         thaliya.levelUp();
 
         // Assert
-        assertEquals("name: Thaliya charType: MAGE level: 2 dps: 1.13 str/vit/dex/int: [8, 2, 2, 14]PrimaryAttributes baseVit=8, baseStr=2, baseDex=2, baseInt=13", thaliya.displayStats());
+        assertEquals(expected, thaliya.displayStats());
     }
 
 
