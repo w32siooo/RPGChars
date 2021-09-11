@@ -1,5 +1,6 @@
 package items;
 
+import characters.charactertypes.Rogue;
 import characters.charactertypes.Warrior;
 import exceptions.InvalidItemException;
 import enums.ArmorType;
@@ -36,6 +37,49 @@ class WeaponTest {
         // Assert
         assertEquals(testWeapon, weapon, "Verify that weapon is equipped.");
 
+    }
+
+    @org.junit.jupiter.api.Test
+    void rogueweps() {
+        // Arrange
+        String itemName = "Common Axe";
+        int damage = 1;
+        double attackSpeed = 1.0;
+        int levelReq = 1;
+        WeaponType axe = WeaponType.BOW;
+        ItemInterface testWeapon = new Weapon(itemName, attackSpeed, damage, levelReq, axe);
+        String characterName = "Gjunhildur";
+        Rogue warrior = new Rogue(characterName);
+
+        int bonusStr = 1;
+        int bonusVit = 0;
+        int bonusDex = 0;
+        int bonusInt = 0;
+        String plateArmorName = "Basic Plate Armor";
+        ArmorType plateArmorType = ArmorType.PLATE;
+
+        Body testPlateBody = new Body(plateArmorName, plateArmorType, levelReq, bonusStr, bonusVit, bonusDex, bonusInt);
+
+        // Act
+        try {
+            warrior.equip(testPlateBody);
+        } catch (InvalidItemException e) {
+            e.printStackTrace();
+        }
+
+        assertNull(warrior.getEquipment().get(Slot.BODY), "should fail because warrior can't equip cloth!");
+
+
+        // Act
+        try {
+            warrior.equip(testWeapon);
+        } catch (InvalidItemException e) {
+            e.printStackTrace();
+        }
+        Weapon weapon = (Weapon) warrior.getEquipment().get(Slot.WEAPON);
+
+        // Assert
+        assertEquals(testWeapon, weapon, "Verify that weapon is equipped.");
     }
 
     @org.junit.jupiter.api.Test

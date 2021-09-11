@@ -1,9 +1,12 @@
 package items.armors;
 
-import characters.BonusAttributes;
 import enums.ArmorType;
+import enums.Attributes;
 import enums.Slot;
 import items.ItemInterface;
+
+import java.util.EnumMap;
+import java.util.Map;
 
 public class Head implements ItemInterface, ArmorInterface {
 
@@ -11,7 +14,10 @@ public class Head implements ItemInterface, ArmorInterface {
         this.name = name;
         this.armorType = armorType;
         this.levelReq = levelReq;
-        this.bonusAttributes = new BonusAttributes(vitality,strength,dexterity,intelligence);
+        this.stats.put(Attributes.VITALITY,vitality);
+        this.stats.put(Attributes.STRENGTH,strength);
+        this.stats.put(Attributes.DEXTERITY,dexterity);
+        this.stats.put(Attributes.INTELLIGENCE,intelligence);
     }
 
     @Override
@@ -20,8 +26,8 @@ public class Head implements ItemInterface, ArmorInterface {
     }
 
     @Override
-    public BonusAttributes getBonusAttributes() {
-        return bonusAttributes;
+    public Map getBonusAttributes() {
+        return stats;
     }
 
     @Override
@@ -43,5 +49,6 @@ public class Head implements ItemInterface, ArmorInterface {
     private Slot bodySlot = Slot.HEAD;
     private ArmorType armorType;
     private int levelReq;
-    private BonusAttributes bonusAttributes;
+    private EnumMap<Attributes, Integer> stats = new EnumMap<>(Attributes.class);
+
 }

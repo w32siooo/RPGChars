@@ -1,12 +1,13 @@
 package items.armors;
 
-import characters.BonusAttributes;
 import enums.ArmorType;
+
+import java.util.Map;
 
 public interface ArmorInterface {
 
     public ArmorType getArmorType();
 
-    public BonusAttributes getBonusAttributes();
+    public Map getBonusAttributes();
 
 }

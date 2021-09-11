@@ -1,26 +1,21 @@
 package characters;
 
-import enums.ArmorType;
-import enums.Slot;
-import enums.WeaponType;
+import enums.*;
 import exceptions.InvalidItemException;
 import items.armors.ArmorInterface;
 import items.ItemInterface;
-import enums.CharTypes;
 import items.weapons.WeaponInterface;
 import util.Logger;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
 
 public abstract class Character {
 
-    protected static int[] startingAttributes;
     protected EnumMap<Slot, ItemInterface> equipment = new EnumMap<>(Slot.class);
-    protected BonusAttributes bonusAttr;
-    protected PrimaryAttributes primAttr;
+    protected EnumMap<Attributes, Integer> totalStats = new EnumMap<>(Attributes.class);
+    protected EnumMap<Attributes, Integer> baseStats = new EnumMap<>(Attributes.class);
     protected CharTypes charType;
     protected int level;
     protected String name;
@@ -30,9 +25,11 @@ public abstract class Character {
     protected Character(String name, int[] primaryAttributes, CharTypes charType) {
         this.name = name;
         this.level = 1;
-        this.primAttr = new PrimaryAttributes(primaryAttributes[0], primaryAttributes[1], primaryAttributes[2], primaryAttributes[3]);
-        this.bonusAttr = new BonusAttributes(0, 0, 0, 0);
         this.charType = charType;
+        this.baseStats.put(Attributes.VITALITY, primaryAttributes[0]);
+        this.baseStats.put(Attributes.STRENGTH, primaryAttributes[1]);
+        this.baseStats.put(Attributes.DEXTERITY, primaryAttributes[2]);
+        this.baseStats.put(Attributes.INTELLIGENCE, primaryAttributes[3]);
     }
 
     public abstract void levelUp();
@@ -48,65 +45,62 @@ public abstract class Character {
         sb.append("charType: " + charType + " ");
         sb.append("level: " + level + " ");
         sb.append("dps: " + dps + " ");
-        sb.append("str/vit/dex/int: " + Arrays.toString(returnTotalAttributes()));
-        sb.append(primAttr.toString());
+        sb.append(returnTotalAttributes());
+        //sb.append(primAttr.toString());
 
         return sb.toString();
     }
 
-    public int[] returnTotalAttributes() {
-        return new int[]{primAttr.getBaseVit() + bonusAttr.getBonusVit(), primAttr.getBaseStr() + bonusAttr.getBonusStr(), primAttr.getBaseDex() + bonusAttr.getBonusDex(), primAttr.getBaseInt() + bonusAttr.getBonusInt()};
+    public String returnTotalAttributes() {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<Attributes, Integer> stat : totalStats.entrySet()) {
+            sb.append(stat.getKey()).append(": ");
+            sb.append(stat.getValue()).append(" ");
+        }
+        return sb.toString();
     }
 
-    private ItemInterface equip(Slot slot, ItemInterface item) throws InvalidItemException {
+    //Public equip method.
+    public abstract boolean equip(ItemInterface itemInterface) throws InvalidItemException;
 
-        if (slot != Slot.WEAPON) updateAttributes((ArmorInterface) item);
+    //private equip method.
+    protected boolean equip(Slot slot, ItemInterface item) throws InvalidItemException {
 
+
+        //decrementstats.
         if (item.getLevelReq() > level) throw new InvalidItemException("Level too low to equip this item!");
         else {
+            equipment.put(slot, item);
+            if (slot != Slot.WEAPON) updateAttributes();
+
             calculateDps();
-            return equipment.put(slot, item);
+            return true;
         }
-    }
-
-    public ItemInterface equip(ItemInterface itemInterface) throws InvalidItemException {
-        Slot slot = itemInterface.getSlot();
-        ArmorType armorType = null;
-        WeaponType weaponType = null;
-        if (slot != Slot.WEAPON) {
-            ArmorInterface armor = (ArmorInterface) itemInterface;
-            armorType = armor.getArmorType();
-        } else {
-            WeaponInterface weapon = (WeaponInterface) itemInterface;
-            weaponType = weapon.getWeaponType();
-        }
-
-        switch (charType) {
-            case WARRIOR -> {
-                if (armorType == ArmorType.PLATE || armorType == ArmorType.MAIL || weaponType == WeaponType.AXE || weaponType == WeaponType.HAMMER || weaponType == WeaponType.SWORD)
-                    return equip(slot, itemInterface);
-            }
-            case MAGE -> {
-                if (armorType == ArmorType.CLOTH || weaponType == WeaponType.STAFF || weaponType == WeaponType.WAND)
-                    return equip(slot, itemInterface);
-            }
-
-            case ROGUE -> {
-                if (armorType == ArmorType.LEATHER || armorType == ArmorType.MAIL || weaponType == WeaponType.BOW)
-                    return equip(slot, itemInterface);
-            }
-            case RANGER -> {
-                if (armorType == ArmorType.LEATHER || armorType == ArmorType.MAIL || weaponType == WeaponType.DAGGER || weaponType == WeaponType.SWORD)
-                    return equip(slot, itemInterface);
-            }
-        }
-        throw new InvalidItemException("invalid" + itemInterface.getSlot() + "equipped");
     }
 
     //private method to update attributes, runs every time a new armor item is equipped.
-    private void updateAttributes(ArmorInterface armor) {
-        BonusAttributes attributes = armor.getBonusAttributes();
-        bonusAttr.updateAttributes(attributes.getBonusVit(), attributes.getBonusStr(), attributes.getBonusDex(), attributes.getBonusInt());
+    private void updateAttributes() {
+        //First we load up all the base stats.
+        this.totalStats.put(Attributes.VITALITY,this.baseStats.get(Attributes.VITALITY));
+        this.totalStats.put(Attributes.STRENGTH, this.baseStats.get(Attributes.STRENGTH));
+        this.totalStats.put(Attributes.DEXTERITY, this.baseStats.get(Attributes.DEXTERITY));
+        this.totalStats.put(Attributes.INTELLIGENCE, this.baseStats.get(Attributes.INTELLIGENCE));
+
+        // Then we loop through our items and add any bonus stats found.
+        StringBuilder sb = new StringBuilder();
+        sb.append("items equipped are now: \n\n");
+        for (Map.Entry<Slot, ItemInterface> armors : equipment.entrySet()){
+            sb.append(armors.getValue().getItemName());
+            if(armors.getValue().getSlot()!=Slot.WEAPON) {
+                ArmorInterface armor = (ArmorInterface) armors.getValue();
+                this.totalStats.put(Attributes.VITALITY, this.totalStats.get(Attributes.VITALITY) + (Integer) armor.getBonusAttributes().get(Attributes.VITALITY));
+                this.totalStats.put(Attributes.STRENGTH, this.totalStats.get(Attributes.STRENGTH)+ (Integer) armor.getBonusAttributes().get(Attributes.STRENGTH));
+                this.totalStats.put(Attributes.DEXTERITY, this.totalStats.get(Attributes.DEXTERITY)+ (Integer) armor.getBonusAttributes().get(Attributes.DEXTERITY));
+                this.totalStats.put(Attributes.INTELLIGENCE, this.totalStats.get(Attributes.INTELLIGENCE)+ (Integer) armor.getBonusAttributes().get(Attributes.INTELLIGENCE));
+            }
+        }
+        System.out.println(sb.toString());
+
     }
 
     public Map<Slot, ItemInterface> getEquipment() {
@@ -115,32 +109,32 @@ public abstract class Character {
 
     public double calculateDps() {
 
-        //Character DPS = Weapon DPS * (1 + TotalPrimaryAttribute/100)
+        //Character DPS = Weapon DPS * as (1 + TotalPrimaryAttribute/100)
 
         switch (charType) {
             case WARRIOR -> {
                 if (equipment.get(Slot.WEAPON) != null) {
                     WeaponInterface weapon = (WeaponInterface) equipment.get(Slot.WEAPON);
-                    dps = weapon.getDamage() * weapon.getAttackSpeed() + (1 + (this.bonusAttr.getBonusStr() + this.primAttr.getBaseStr()) / 100.0); //damage * attackspeed + (1+primAttr/100)
+                    dps = weapon.getDamage() * weapon.getAttackSpeed() + (1 + (totalStats.get(Attributes.STRENGTH)) / 100.0);
                 } else {
-                    dps = (1 + this.primAttr.getBaseStr() / 100.0);
+                    dps = (1 + baseStats.get(Attributes.STRENGTH) / 100.0);
                 }
 
             }
             case MAGE -> {
                 if (equipment.get(Slot.WEAPON) != null) {
                     WeaponInterface weapon = (WeaponInterface) equipment.get(Slot.WEAPON);
-                    dps = weapon.getDamage() * weapon.getAttackSpeed() + (1 + (this.bonusAttr.getBonusInt() + this.primAttr.getBaseInt()) / 100.0); //damage * attackspeed + (1+primAttr/100)
+                    dps = weapon.getDamage() * weapon.getAttackSpeed() + (1 + (totalStats.get(Attributes.INTELLIGENCE)) / 100.0);
                 } else {
-                    dps = (1 + this.primAttr.getBaseInt() / 100.0);
+                    dps = (1 + baseStats.get(Attributes.INTELLIGENCE) / 100.0);
                 }
             }
             case RANGER, ROGUE -> {
                 if (equipment.get(Slot.WEAPON) != null) {
                     WeaponInterface weapon = (WeaponInterface) equipment.get(Slot.WEAPON);
-                    dps = weapon.getDamage() * weapon.getAttackSpeed() + (1 + (this.bonusAttr.getBonusDex() + this.primAttr.getBaseDex()) / 100.0); //damage * attackspeed + (1+primAttr/100)
+                    dps = weapon.getDamage() * weapon.getAttackSpeed() + (1 + (totalStats.get(Attributes.DEXTERITY)) / 100.0);
                 } else {
-                    dps = (1 + this.primAttr.getBaseDex() / 100.0);
+                    dps = (1 + baseStats.get(Attributes.DEXTERITY) / 100.0);
                 }
             }
             default -> {
@@ -155,6 +149,23 @@ public abstract class Character {
         return this.dps;
     }
 
+    public static Object armorOrWeapon(ItemInterface itemInterface) {
+        Slot slot = itemInterface.getSlot();
+        if (slot != Slot.WEAPON) {
+            ArmorInterface armor = (ArmorInterface) itemInterface;
+            return armor.getArmorType();
+        } else {
+            WeaponInterface weapon = (WeaponInterface) itemInterface;
+            return weapon.getWeaponType();
+        }
+    }
 
+    protected void incrementAttributes(int[] levelUpAttributes) {
+
+        this.baseStats.put(Attributes.VITALITY, levelUpAttributes[0] + this.baseStats.get(Attributes.VITALITY));
+        this.baseStats.put(Attributes.STRENGTH, levelUpAttributes[1] + this.baseStats.get(Attributes.STRENGTH));
+        this.baseStats.put(Attributes.DEXTERITY, levelUpAttributes[2] + this.baseStats.get(Attributes.DEXTERITY));
+        this.baseStats.put(Attributes.INTELLIGENCE, levelUpAttributes[3] + this.baseStats.get(Attributes.INTELLIGENCE));
+    }
 }
 

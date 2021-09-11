@@ -35,7 +35,7 @@ class CharacterTest {
         thaliya.levelUp();
 
         // Assert
-        assertEquals(Arrays.toString(a), Arrays.toString(thaliya.returnTotalAttributes()));
+        assertEquals(Arrays.toString(a), thaliya.returnTotalAttributes());
     }
 
     @org.junit.jupiter.api.Test
@@ -58,7 +58,7 @@ class CharacterTest {
         thaliya.levelUp();
 
         // Assert
-        assertEquals(Arrays.toString(a), Arrays.toString(thaliya.returnTotalAttributes()));
+        assertEquals(Arrays.toString(a), thaliya.returnTotalAttributes());
     }
 
     @org.junit.jupiter.api.Test
