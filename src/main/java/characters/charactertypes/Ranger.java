@@ -5,8 +5,6 @@ import enums.ArmorType;
 import enums.Attributes;
 import enums.CharTypes;
 import enums.WeaponType;
-import exceptions.InvalidItemException;
-import items.ItemInterface;
 
 import java.util.List;
 
@@ -17,29 +15,11 @@ public class Ranger extends Character {
 
     private static final CharTypes rangerType = CharTypes.RANGER;
     private static final List<WeaponType> allowedWeaponTypes = List.of(WeaponType.BOW);
-    private static final List <ArmorType> allowedArmorTypes = List.of(ArmorType.LEATHER,ArmorType.MAIL);
+    private static final List<ArmorType> allowedArmorTypes = List.of(ArmorType.LEATHER, ArmorType.MAIL);
 
     public Ranger(String name) {
-        super(name, startingAttributes, rangerType, primeStat);
+        super(name, startingAttributes, rangerType, primeStat, levelUpAttributes, allowedArmorTypes, allowedWeaponTypes);
     }
-
-    @Override
-    public void levelUp() {
-        super.incrementAttributes(levelUpAttributes);
-        this.level = this.level + 1;
-    }
-
-    @Override
-    public boolean equip(ItemInterface itemInterface) throws InvalidItemException {
-
-        var itemSubType = armorOrWeapon(itemInterface);
-
-        if (allowedArmorTypes.contains(itemSubType)||allowedWeaponTypes.contains(itemSubType))
-            return super.equip(itemInterface.getSlot(), itemInterface);
-
-        throw new InvalidItemException("invalid" + itemInterface.getSlot() + "equipped");
-    }
-
 }
 
 

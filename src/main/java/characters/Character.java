@@ -7,6 +7,7 @@ import items.ItemInterface;
 import items.weapons.WeaponInterface;
 
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class Character {
@@ -14,13 +15,16 @@ public abstract class Character {
     protected EnumMap<Slot, ItemInterface> equipment = new EnumMap<>(Slot.class);
     protected EnumMap<Attributes, Integer> totalStats = new EnumMap<>(Attributes.class);
     protected EnumMap<Attributes, Integer> baseStats = new EnumMap<>(Attributes.class);
+    protected List<WeaponType> allowedWeaponTypes;
+    protected List<ArmorType> allowedArmorTypes;
+    protected int[] levelUpAttributes;
     protected CharTypes charType;
     protected int level;
     protected String name;
     protected double dps;
     protected Attributes primaryStat;
 
-    protected Character(String name, int[] primaryAttributes, CharTypes charType, Attributes primaryStat) {
+    protected Character(String name, int[] primaryAttributes, CharTypes charType, Attributes primaryStat, int[] levelUpAttributes, List<ArmorType> allowedArmorTypes, List<WeaponType> allowedWeaponTypes) {
         this.name = name;
         this.level = 1;
         this.charType = charType;
@@ -29,9 +33,15 @@ public abstract class Character {
         this.baseStats.put(Attributes.DEXTERITY, primaryAttributes[2]);
         this.baseStats.put(Attributes.INTELLIGENCE, primaryAttributes[3]);
         this.primaryStat = primaryStat;
+        this.allowedWeaponTypes = allowedWeaponTypes;
+        this.allowedArmorTypes = allowedArmorTypes;
+        this.levelUpAttributes = levelUpAttributes;
     }
 
-    public abstract void levelUp();
+    public  void levelUp(){
+        level++;
+        incrementAttributes();
+    }
 
     public int getLevel() {
         return level;
@@ -68,7 +78,15 @@ public abstract class Character {
     }
 
     //Public equip method.
-    public abstract boolean equip(ItemInterface itemInterface) throws InvalidItemException;
+    public boolean equip(ItemInterface itemInterface) throws InvalidItemException {
+
+        var itemSubType = armorOrWeapon(itemInterface);
+
+        if (allowedArmorTypes.contains(itemSubType)||allowedWeaponTypes.contains(itemSubType))
+            return equip(itemInterface.getSlot(), itemInterface);
+
+        throw new InvalidItemException("invalid" + itemInterface.getSlot() + "equipped");
+    }
 
     //private equip method.
     protected boolean equip(Slot slot, ItemInterface item) throws InvalidItemException {
@@ -82,7 +100,7 @@ public abstract class Character {
         }
     }
 
-    private void runAfterStatUpdate(){
+    private void runAfterStatUpdate() {
         updateAttributes();
         calculateDps();
     }
@@ -123,7 +141,7 @@ public abstract class Character {
             dps = (1 + totalStats.get(primaryStat) / 100.0); // Melee dps.
         }
 
-        dps= Math.round(dps * 100d) / 100d; // Round to 2 digits precision.
+        dps = Math.round(dps * 100d) / 100d; // Round to 2 digits precision.
 
 
         return String.format("%.2f", dps);
@@ -140,7 +158,7 @@ public abstract class Character {
         }
     }
 
-    protected void incrementAttributes(int[] levelUpAttributes) {
+    protected void incrementAttributes() {
 
         baseStats.put(Attributes.VITALITY, levelUpAttributes[0] + baseStats.get(Attributes.VITALITY));
         baseStats.put(Attributes.STRENGTH, levelUpAttributes[1] + baseStats.get(Attributes.STRENGTH));

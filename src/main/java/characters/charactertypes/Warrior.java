@@ -6,9 +6,6 @@ import enums.CharTypes;
 import enums.WeaponType;
 import enums.Attributes;
 
-import exceptions.InvalidItemException;
-import items.ItemInterface;
-
 import java.util.List;
 
 public class Warrior extends Character {
@@ -21,24 +18,7 @@ public class Warrior extends Character {
     private static final List <ArmorType> allowedArmorTypes = List.of(ArmorType.MAIL,ArmorType.PLATE);
 
     public Warrior(String name) {
-        super(name, startingAttributes, warriorType, primeStat);
-    }
-
-    @Override
-    public void levelUp() {
-        super.incrementAttributes(levelUpAttributes);
-        this.level = this.level + 1;
-    }
-
-    @Override
-    public boolean equip(ItemInterface itemInterface) throws InvalidItemException {
-
-        var itemSubType = armorOrWeapon(itemInterface);
-
-        if (allowedArmorTypes.contains(itemSubType)||allowedWeaponTypes.contains(itemSubType))
-            return super.equip(itemInterface.getSlot(), itemInterface);
-
-        throw new InvalidItemException("invalid" + itemInterface.getSlot() + "equipped");
+        super(name, startingAttributes, warriorType, primeStat, levelUpAttributes,allowedArmorTypes,allowedWeaponTypes);
     }
 
 }
