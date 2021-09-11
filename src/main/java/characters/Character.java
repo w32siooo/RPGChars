@@ -90,6 +90,7 @@ public abstract class Character {
         StringBuilder sb = new StringBuilder();
         sb.append("items equipped are now: \n\n");
         for (Map.Entry<Slot, ItemInterface> armors : equipment.entrySet()){
+
             sb.append(armors.getValue().getItemName());
             if(armors.getValue().getSlot()!=Slot.WEAPON) {
                 ArmorInterface armor = (ArmorInterface) armors.getValue();

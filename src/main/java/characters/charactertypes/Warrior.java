@@ -28,6 +28,7 @@ public class Warrior extends Character {
     public boolean equip(ItemInterface itemInterface) throws InvalidItemException {
 
         var itemSubType = armorOrWeapon(itemInterface);
+        
 
         if (itemSubType == ArmorType.PLATE || itemSubType == ArmorType.MAIL || itemSubType == WeaponType.AXE
                 || itemSubType == WeaponType.HAMMER || itemSubType == WeaponType.SWORD)
