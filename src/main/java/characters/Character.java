@@ -67,7 +67,7 @@ public abstract class Character {
     public String returnBaseAttributes() {
         return enumMapToString(baseStats);
     }
-
+    // Helper function, converts enum map to string.
     private String enumMapToString(EnumMap<Attributes, Integer> stats) {
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<Attributes, Integer> stat : stats.entrySet()) {
