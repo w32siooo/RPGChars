@@ -64,7 +64,8 @@ class CharacterTest {
     @org.junit.jupiter.api.Test
     void printTotalStats() throws InvalidItemException {
         // Arrange
-        Mage thaliya = new Mage("Thaliya");
+        Mage thaliya = new Mage("Thaliya") {
+        };
         int[] a = new int[]{8, 2, 2, 14}; //After a level up and one bonus point of vitality.
         String expected = "name: Thaliya charType: MAGE level: 2 dps: 1,14 Base stats: VITALITY: 8 STRENGTH: 2 DEXTERITY: 2 INTELLIGENCE: 13 Total stats: VITALITY: 8 STRENGTH: 2 DEXTERITY: 2 INTELLIGENCE: 14 ";
         int levelReq = 1;

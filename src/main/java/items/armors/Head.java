@@ -18,6 +18,7 @@ public class Head implements ItemInterface, ArmorInterface {
         this.stats.put(Attributes.STRENGTH,strength);
         this.stats.put(Attributes.DEXTERITY,dexterity);
         this.stats.put(Attributes.INTELLIGENCE,intelligence);
+
     }
 
     @Override

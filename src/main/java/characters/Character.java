@@ -24,7 +24,7 @@ public abstract class Character {
     protected double dps;
     protected Attributes primaryStat;
 
-    protected Character(String name, int[] primaryAttributes, CharTypes charType, Attributes primaryStat, int[] levelUpAttributes, List<ArmorType> allowedArmorTypes, List<WeaponType> allowedWeaponTypes) {
+    public Character(String name, int[] primaryAttributes, CharTypes charType, Attributes primaryStat, int[] levelUpAttributes, List<ArmorType> allowedArmorTypes, List<WeaponType> allowedWeaponTypes) {
         this.name = name;
         this.level = 1;
         this.charType = charType;
@@ -37,6 +37,7 @@ public abstract class Character {
         this.allowedArmorTypes = allowedArmorTypes;
         this.levelUpAttributes = levelUpAttributes;
     }
+
 
     public  void levelUp(){
         level++;
@@ -140,9 +141,6 @@ public abstract class Character {
         } else {
             dps = (1 + totalStats.get(primaryStat) / 100.0); // Melee dps.
         }
-
-        dps = Math.round(dps * 100d) / 100d; // Round to 2 digits precision.
-
 
         return String.format("%.2f", dps);
     }
