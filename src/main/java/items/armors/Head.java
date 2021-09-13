@@ -46,10 +46,10 @@ public class Head implements ItemInterface, ArmorInterface {
         return headSlot;
     }
 
-    private String name;
-    private Slot headSlot = Slot.HEAD;
-    private ArmorType armorType;
-    private int levelReq;
-    private EnumMap<Attributes, Integer> stats = new EnumMap<>(Attributes.class);
+    private final String name;
+    private final Slot headSlot = Slot.HEAD;
+    private final ArmorType armorType;
+    private final int levelReq;
+    private final EnumMap<Attributes, Integer> stats = new EnumMap<>(Attributes.class);
 
 }

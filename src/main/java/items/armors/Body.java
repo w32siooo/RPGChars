@@ -45,9 +45,9 @@ public class Body implements ItemInterface, ArmorInterface {
         this.stats.put(Attributes.INTELLIGENCE,intelligence);
     }
 
-    private String name;
-    private Slot bodySlot = Slot.BODY;
-    private ArmorType armorType;
-    private int levelReq;
-    private EnumMap<Attributes, Integer> stats = new EnumMap<>(Attributes.class);
+    private final String name;
+    private final Slot bodySlot = Slot.BODY;
+    private final ArmorType armorType;
+    private final int levelReq;
+    private final EnumMap<Attributes, Integer> stats = new EnumMap<>(Attributes.class);
 }
