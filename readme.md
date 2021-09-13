@@ -6,7 +6,7 @@ This is a backend for an RPG game.
 
 Demonstrate usage of object-oriented programming techniques. Such as polymorphism implemented with interfaces and inheritance.   
 
-##How to run: 
+## How to run: 
 
 As this is just a backend project, the only way it is "meant" to be run is through it's tests folder. Simply run all the unittests in the tests folder, and verify that the program works as intended. 
 
